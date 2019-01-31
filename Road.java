@@ -68,18 +68,31 @@ public class Road extends Place{
         this.yFinal=yFinal;
     }
     
+    /**
+     * Creates a road from a parent place to a new end point
+     * @param  parent the place whose endpoint defines one end of the new road
+     * @param  xFinal the x coordinate of the other end
+     * @param  yFinal the y coordinate of the other end
+     * @throws  ParentCannotAdoptException
+     */
+    public Road(Place parent,double xFinal,double yFinal) throws AdoptionException{
+        super(parent,Math.pow(Math.pow((xFinal-parent.x()),2)+Math.pow((yFinal-parent.y()),2),0.5));
+        this.xInitial=parent.x();
+        this.yInitial=parent.y();
+        this.xFinal=xFinal;
+        this.yFinal=yFinal;
+    }
+    
     
     /**
     * Displays the road as a line drawn from the initial point to the final point
     */
     public void display(){
-        StdDraw.setPenRadius(0.01);
-         String nodes="SADI";
-        for(Node n: this.links){
-            nodes+=" ,"+n.nodeValue();
+        for(Node n: links){
+            n.display();
         }
+        StdDraw.setPenRadius(0.01);
         StdDraw.setPenColor(0,0,0);
-        StdDraw.textLeft((xInitial+xFinal)/2,(yInitial+yFinal)/2,nodes);
         StdDraw.setPenColor(120,0,0);
         StdDraw.line(xInitial,yInitial,xFinal,yFinal);
     }
@@ -99,6 +112,38 @@ public class Road extends Place{
         this.xFinal=endPoint.x();
         this.yFinal=endPoint.y();
     }
+    
+    
+    /**
+     * Creates a road from a parent place to an existing place
+     * @param  parent the place whose endpoint defines one end of the new road
+     * @param  endPoint the place to which the end of the new road connects
+     * @throws  ParentCannotAdoptException
+     */
+    public Road(Place parent,Place endPoint) throws AdoptionException{
+        super(parent,endPoint,Math.pow(Math.pow((endPoint.x()-parent.x()),2)+Math.pow((endPoint.y()-parent.y()),2),0.5));
+        this.xInitial=parent.x();
+        this.yInitial=parent.y();
+        this.xFinal=endPoint.x();
+        this.yFinal=endPoint.y();
+    }
+    
+    
+    /**
+     * Creates a road from a parent Intersection to an existing Intersection
+     * @param  parent the place whose endpoint defines one end of the new road
+     * @param  endPoint the place to which the end of the new road connects
+     * @throws  ParentCannotAdoptException
+     */
+    public Road(Intersection parent,Intersection endPoint) throws AdoptionException{
+        super((Place)parent,(Place)endPoint,Math.pow(Math.pow((endPoint.x()-parent.x()),2)+Math.pow((endPoint.y()-parent.y()),2),0.5));
+        this.xInitial=parent.x();
+        this.yInitial=parent.y();
+        this.xFinal=endPoint.x();
+        this.yFinal=endPoint.y();
+    }
+    
+    
     
     
     /**

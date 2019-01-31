@@ -16,7 +16,7 @@ public abstract class Place{
      */
     public Place(Place parent,double length) throws AdoptionException{
         if(parent.makeParent(this)){
-            Node n=new Node(parent,this);
+            Node n=new Node(parent,this, parent.x(), parent.y());
             parent.addLink(n);
             links.add(n);
             this.length=length;
@@ -44,9 +44,9 @@ public abstract class Place{
      * @param  length the distance taken to traverse the newly created place
      */
     public Place(Place parent,Place target,double length)throws AdoptionException{
-        Node n2=new Node(parent,this);
+        Node n2=new Node(this,target,target.x(),target.y());
         if(parent.makeParent(this)&&target.addLink(n2)){
-            Node n=new Node(parent,this);
+            Node n=new Node(parent,this, parent.x(),parent.y());
             parent.addLink(n);
             links.add(n);
             this.length=length;

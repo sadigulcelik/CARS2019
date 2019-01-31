@@ -35,14 +35,19 @@ public class Intersection extends Place{
      * @param  length the distance across the intersection (to be used in calculating how long it takes to cross the intersection)
      * @throws  ParentCannotAdoptException
      */
-    public Intersection(Road parent, double length) throws ParentCannotAdoptException{
+    public Intersection(Road parent, double length) throws AdoptionException{
         super(parent,length);
+        this.x=parent.x();
+        this.y=parent.y();
     }
     
     /**
     * Displays the Intersection as a filled circle drawn around the location
     */
     public void display(){
+        for(Node n: this.links){
+            n.display();
+        }
         StdDraw.setPenRadius(0.01);
         StdDraw.setPenColor(50,150,0);
         StdDraw.filledCircle(x, y,10);

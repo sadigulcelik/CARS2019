@@ -5,14 +5,46 @@ public class Main{
         StdDraw.setYscale(0,800);
         
         //Grid g=new Grid();
-        Intersection a=new TimesSquare(100,50,5.2);
-        Road b=new Road((Place)a,20,300,17.3);
-        Road c=new Road((Place)b,300,300,17.3);
-        Road d=new Road((Place)c,a,17.3);
-        Road e=new Road((Place)a,80.0,717.3,70);
-        e.inputNodeValue(0);
-        a.displayAll();
-        e.inputNodeValue(0);
-        a.displayAll();
+        Intersection bi1=new TimesSquare(50,50,42);
+        Road br1=new Road((Place)bi1,250,50);
+        Intersection bi2=new Intersection(br1,42);
+        Road br2=new Road((Place)bi2,450,50);
+        Intersection bi3=new Intersection(br2,42);
+        
+        Road bm=new Road((Place)bi1,50,250);
+        
+        Intersection mi1=new Intersection(bm,42);
+        Road mr1=new Road((Place)mi1,250,250);
+        Intersection mi2=new Intersection(mr1,42);
+        Road mr2=new Road((Place)mi2,450,250);
+        Intersection mi3=new Intersection(mr2,42);
+        
+        Road mt=new Road((Place)mi1,50,450);
+        
+        Intersection ti1=new Intersection(mt,42);
+        Road tr1=new Road((Place)ti1,250,450);
+        Intersection ti2=new Intersection(tr1,42);
+        Road tr2=new Road((Place)ti2,450,450);
+        Intersection ti3=new Intersection(tr2,42);
+        
+        Road tk=new Road((Place)ti1,50,650);
+        
+        Intersection ki1=new Intersection(tk,42);
+        Road kr1=new Road((Place)ki1,250,650);
+        Intersection ki2=new Intersection(kr1,42);
+        Road kr2=new Road((Place)ki2,450,650);
+        Intersection ki3=new Intersection(kr2,42);
+        
+        Road l00=new Road(bi2,mi2);
+        Road l01=new Road(bi3,mi3);
+        
+        Road l10=new Road(ti2,mi2);
+        Road l11=new Road(ti3,mi3);
+        
+        Road l20=new Road(ti2,ki2);
+        Road l21=new Road(ti3,ki3);
+        
+        bi1.inputNodeValue(0);
+        bi1.displayAll();
     }
 }
