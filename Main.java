@@ -4,7 +4,6 @@ public class Main{
         StdDraw.setXscale(0,800);
         StdDraw.setYscale(0,800);
         
-        //Grid g=new Grid();
         Intersection bi1=new TimesSquare(50,50,42);
         Road br1=new Road((Place)bi1,250,50);
         Intersection bi2=new Intersection(br1,42);
@@ -43,8 +42,21 @@ public class Main{
         
         Road l20=new Road(ti2,ki2);
         Road l21=new Road(ti3,ki3);
+        Car c;
+        try{
+        c=new Car(10, br1, (float)0.5,true);
+          c.inputNodeValue();  
+        }
+        catch(NoMoreSpaceException n){
+            
+        }
+        try{
+        new Car(10, br1, (float)0.5,true);
+        }
+        catch(NoMoreSpaceException n){
+            System.out.println("failed to add");
+        }
         
-        bi1.inputNodeValue(0);
         bi1.displayAll();
     }
 }

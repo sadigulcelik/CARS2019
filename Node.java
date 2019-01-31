@@ -16,8 +16,8 @@ public class Node{
     }
     public void display(){
         StdDraw.setPenColor(0,0,0);
-        StdDraw.textLeft(x+20*(this.nodeValue%5),y+20*(this.nodeValue%5),String.valueOf(this.nodeValue));
-        System.out.println(String.valueOf(this.nodeValue));
+        StdDraw.textLeft(x+20+20*(this.nodeValue%5),y+20+20*(this.nodeValue%5),String.valueOf(this.nodeValue));
+        //System.out.println(String.valueOf(this.nodeValue));
     }
     public void pushNodeValue(double incomingValue,Place source){
         if (incomingValue<nodeValue){

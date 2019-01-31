@@ -17,6 +17,15 @@ public class Road extends Place{
         return true;
     }
     
+    public Node getNode(boolean orientation){
+        if (orientation){
+            return this.links.get(0);
+        }
+        else{
+            return this.links.get(1);
+        }
+    }
+    
     public double length(){
         return Math.pow((xInitial-xFinal)*(xInitial-xFinal)+(yInitial-yFinal)*(yInitial=yFinal),0.5);
     }
@@ -91,10 +100,16 @@ public class Road extends Place{
         for(Node n: links){
             n.display();
         }
+        
+            
         StdDraw.setPenRadius(0.01);
         StdDraw.setPenColor(0,0,0);
         StdDraw.setPenColor(120,0,0);
         StdDraw.line(xInitial,yInitial,xFinal,yFinal);
+        StdDraw.setPenColor(0,255,255);
+        for(Car c: this.cars){
+            c.display(xInitial,yInitial,xFinal,yFinal);
+        }
     }
     
     

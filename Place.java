@@ -158,4 +158,11 @@ public abstract class Place{
             n.pushNodeValue((nodeValue+this.length),this);
         }
     }
+    public void inputNodeValue(double nodeValue, Node source){
+        for (Node n: this.links){
+            if (n!=source){
+                n.pushNodeValue((nodeValue+this.length),this);
+            }
+        }
+    }
 }
