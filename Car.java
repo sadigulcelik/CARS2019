@@ -50,16 +50,16 @@ public class Car{
                 //System.out.println("node val: "+ currentDest.nodeValue());
                 if(loc instanceof Intersection){
                     orientation=true;
-                    p=0;
+                    p=p-loc.length();
                 }
         else if(loc instanceof Road){
                 if(((Road)this.loc).isParentalSide(awayFrom)){
                     orientation=true;
-                    p=0;
+                    p=p-loc.length();
                 }
                 else{
                     orientation=false;
-                    p=this.loc.length();
+                    p=this.loc.length()-(p-this.loc.length());
                 }
             }
             }
@@ -78,16 +78,16 @@ public class Car{
                 //System.out.println("node val: "+currentDest.nodeValue());
                 if(loc instanceof Intersection){
                     orientation=true;
-                    p=0;
+                    p=-p;
                 }
         else if(loc instanceof Road){
                 if(((Road)this.loc).isParentalSide(awayFrom)){
                     orientation=true;
-                    p=0;
+                    p=-p;
                 }
                 else{
                     orientation=false;
-                    p=this.loc.length();
+                    p=this.loc.length()+p;
                 }
             }
             }
