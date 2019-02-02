@@ -14,8 +14,17 @@ public class Intersection extends Place{
      * Returns the y coordinate of the intersection
      * @return  y the y coordinate
      */
+    
     public double y(){
         return this.y;
+    }
+    
+    public boolean addCar(Car car){
+        if (this.cars.size()==0){
+            this.cars.add(car);
+            return true;
+        }
+        return false;
     }
     
     /**
@@ -51,5 +60,9 @@ public class Intersection extends Place{
         StdDraw.setPenRadius(0.01);
         StdDraw.setPenColor(50,150,0);
         StdDraw.filledCircle(x, y,10);
+        StdDraw.setPenColor(0,255,255);
+        for(Car c: this.cars){
+            c.display(x,y,x+1,y+1);
+        }
     }
 }

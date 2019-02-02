@@ -9,11 +9,31 @@ public abstract class Place{
     protected ArrayList<Car>cars=new ArrayList<Car>();
     
     
+    
     /**
      * Creates a place from a parent place and a length.
      * @param  parent the parent node from which the place "begins"
      * @param  length the distance taken to traverse the newly created place
      */
+    public ArrayList<Node> getNodes(){
+        return this.links;
+    }
+    
+    public ArrayList<Node> getAllNodes(){
+        ArrayList<Node> out=new ArrayList<Node>();
+        for (Node n: this.links){
+            if (n.origin()==this){
+                out.add(n);
+            }
+        }
+        for(Place p: children){
+            ArrayList<Node> toAdd=p.getAllNodes();
+            for (Node n: toAdd){
+                out.add(n);
+            }
+        }
+        return out;
+    }
     public Place(Place parent,double length) throws AdoptionException{
         if(parent.makeParent(this)){
             Node n=new Node(parent,this, parent.x(), parent.y());
@@ -33,6 +53,7 @@ public abstract class Place{
      * @param  length the distance taken to traverse the Times Square
      */
     protected Place(double length){
+        System.out.println(this.length);
         this.length=length;       
     }
     
@@ -120,9 +141,16 @@ public abstract class Place{
      * @return  the length of the node
      */
     public double length(){
+        //System.out.println(this.length);
         return this.length;
     }
     
+    public void removeCar(Car c){
+        this.cars.remove(c);
+    }
+    
+    
+    abstract boolean addCar(Car c);
     
     /**
      * The display method for a place
@@ -153,15 +181,15 @@ public abstract class Place{
      */
     abstract double y();
     
-    public void inputNodeValue(double nodeValue){
+    public void inputNodeValue(double nodeValue,ArrayList<Node>path){
         for (Node n: this.links){
-            n.pushNodeValue((nodeValue+this.length),this);
+            n.pushNodeValue((nodeValue+this.length),this,path);
         }
     }
-    public void inputNodeValue(double nodeValue, Node source){
+    public void inputNodeValue(double nodeValue, Node sourceNode, ArrayList<Node>path){
         for (Node n: this.links){
-            if (n!=source){
-                n.pushNodeValue((nodeValue+this.length),this);
+            if (n!=sourceNode){
+                n.pushNodeValue((nodeValue+this.length),this,path);
             }
         }
     }

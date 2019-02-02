@@ -8,4 +8,5 @@ public class TimesSquare extends Intersection{
     public TimesSquare(double x,double y,double length){
         super(length,x,y);
     }
+    
 }

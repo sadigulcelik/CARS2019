@@ -17,6 +17,12 @@ public class Road extends Place{
         return true;
     }
     
+    public boolean isParentalSide(Node n){
+        if (this==n.target()){
+            return true;
+        }
+        return false;
+    }
     public Node getNode(boolean orientation){
         if (orientation){
             return this.links.get(0);
@@ -26,9 +32,6 @@ public class Road extends Place{
         }
     }
     
-    public double length(){
-        return Math.pow((xInitial-xFinal)*(xInitial-xFinal)+(yInitial-yFinal)*(yInitial=yFinal),0.5);
-    }
     /**
      * Returns the X coordinate xFinal: the open part of a road.
      * @return  xFinal
@@ -137,6 +140,7 @@ public class Road extends Place{
      */
     public Road(Place parent,Place endPoint) throws AdoptionException{
         super(parent,endPoint,Math.pow(Math.pow((endPoint.x()-parent.x()),2)+Math.pow((endPoint.y()-parent.y()),2),0.5));
+        System.out.println(Math.pow(Math.pow((endPoint.x()-parent.x()),2)+Math.pow((endPoint.y()-parent.y()),2),0.5)+" Road 140");
         this.xInitial=parent.x();
         this.yInitial=parent.y();
         this.xFinal=endPoint.x();
@@ -152,6 +156,7 @@ public class Road extends Place{
      */
     public Road(Intersection parent,Intersection endPoint) throws AdoptionException{
         super((Place)parent,(Place)endPoint,Math.pow(Math.pow((endPoint.x()-parent.x()),2)+Math.pow((endPoint.y()-parent.y()),2),0.5));
+        System.out.println(Math.pow(Math.pow((endPoint.x()-parent.x()),2)+Math.pow((endPoint.y()-parent.y()),2),0.5)+" Road 140");
         this.xInitial=parent.x();
         this.yInitial=parent.y();
         this.xFinal=endPoint.x();

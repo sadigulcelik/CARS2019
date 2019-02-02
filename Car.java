@@ -1,20 +1,24 @@
+import java.util.*;
+import java.io.*;
 public class Car{
     double maxSpeed;
-    float percentage;//distance from parent
+    double distFromParent;
     boolean orientation;//true if directed away from parent
     Node awayFrom;
     Place loc;
     double size=8;
+    ArrayList<Node>route;
+    Node currentDest;
     
-    public Car(double speed, Road r, float percentage,boolean orientation) throws NoMoreSpaceException{
-        if (percentage<0){
+    public Car(double speed, Road r, double distFromParent,boolean orientation) throws NoMoreSpaceException{
+        if (distFromParent<0){
             throw new NoMoreSpaceException();
         }
         loc=(Place)(r);
         this.maxSpeed=speed;
         this.orientation=orientation;
-        this.awayFrom=r.getNode(!orientation);
-        this.percentage=percentage;
+        this.awayFrom=r.getNode(orientation);
+        this.distFromParent=distFromParent;
         if(r.addCar(this)){
             System.out.println("car added");
         } 
@@ -25,12 +29,102 @@ public class Car{
         
         
     }
+    public boolean move(){
+        //System.out.println("pre: "+distFromParent);
+        double p=distFromParent;
+        if (orientation){
+            p+=this.maxSpeed;
+            if(p>loc.length()){
+                if(route.indexOf(currentDest)==route.size()-1){ 
+                    return false;
+                }
+                this.loc.removeCar(this);
+                //System.out.println("here: "+currentDest.getOther(this.loc));
+                this.loc=(Place)(currentDest.getOther(this.loc));
+                System.out.println(this.loc);
+                System.out.println(this.loc.length());
+                this.loc.addCar(this);
+                awayFrom=currentDest;
+                //System.out.println(route.indexOf(currentDest));
+                currentDest=route.get(route.indexOf(currentDest)+1);
+                //System.out.println("node val: "+ currentDest.nodeValue());
+                if(loc instanceof Intersection){
+                    orientation=true;
+                    p=0;
+                }
+        else if(loc instanceof Road){
+                if(((Road)this.loc).isParentalSide(awayFrom)){
+                    orientation=true;
+                    p=0;
+                }
+                else{
+                    orientation=false;
+                    p=this.loc.length();
+                }
+            }
+            }
+        }
+        else{
+            p-=this.maxSpeed;
+            if(p<0){
+                if(route.indexOf(currentDest)==route.size()-1){
+                    return false;
+                }
+                this.loc.removeCar(this);
+                this.loc=(Place)(currentDest.getOther(this.loc));
+                this.loc.addCar(this);
+                awayFrom=currentDest;
+                currentDest=route.get(route.indexOf(currentDest)+1);
+                //System.out.println("node val: "+currentDest.nodeValue());
+                if(loc instanceof Intersection){
+                    orientation=true;
+                    p=0;
+                }
+        else if(loc instanceof Road){
+                if(((Road)this.loc).isParentalSide(awayFrom)){
+                    orientation=true;
+                    p=0;
+                }
+                else{
+                    orientation=false;
+                    p=this.loc.length();
+                }
+            }
+            }
+        }
+        
+        distFromParent=p;
+        return true;
+        //System.out.println("after: "+distFromParent);
+        
+    }
+    
+    public void setDestination(Node n){
+        this.inputNodeValue();
+        route=n.getPath();
+        System.out.println("start");
+        for(int i=0; i<route.size();i++){
+            
+            System.out.print(route.get(i).nodeValue()+"   ");
+            
+        }
+        System.out.println("end");
+        currentDest=route.get(0);
+    }
+    
+    public void inputNodeValue(){
+        ArrayList<Node>myPath=new ArrayList<Node>(); 
+        double length;
+        if (orientation){length=distFromParent;}
+        else{length=loc.length()-distFromParent;}
+        this.loc.inputNodeValue(-length,awayFrom,myPath); 
+    }
     public boolean hasCollission(Car c, double roadLength){
-        if (this.percentage>c.Percentage()){
+        if (this.distFromParent>c.distFromParent()){
             if (c.Orientation()==true&&this.orientation==false){
                 return true;//we are bound to have a collision since c is moving away from the parent but "this" is blocking the way
             }
-            if( ( (this.size+c.Size()) /2 ) > (roadLength*(this.percentage-c.Percentage()) ) ){
+            if( ( (this.size+c.Size()) /2 ) > (this.distFromParent-c.distFromParent() ) ){
                 return true;
             }
         }
@@ -38,7 +132,7 @@ public class Car{
             if (c.Orientation()==false&&this.orientation==true){
                 return true;//we are bound to have a collision since this is moving away from the parent but c is blocking the way
             }
-            if( ( (this.size+c.Size()) /2 ) > (roadLength*(c.Percentage()-this.percentage) ) ){
+            if( ( (this.size+c.Size()) /2 ) > (c.distFromParent()-this.distFromParent ) ){
                 return true;
             }
         }
@@ -48,15 +142,16 @@ public class Car{
         
     }
     public void display(double xi, double yi, double xf,double yf){
-        double x=xi+(xf-xi)*this.percentage;
-        double y=yi+(yf-yi)*this.percentage;
+        double x=xi+(xf-xi)*this.distFromParent/this.loc.length();
+        double y=yi+(yf-yi)*this.distFromParent/this.loc.length();
         //StdDraw.filledEllipse(x,y, 3*size,3*size); 
         unitVector forward;
         if (this.orientation){
-            forward=new unitVector(xi-xf, yi-yf);
+            forward=new unitVector(xf-xi, yf-yi);
         }
         else{
-            forward=new unitVector(xf-xi, yf-yi);
+            
+            forward=new unitVector(xi-xf, yi-yf);
         }
         unitVector backward=forward.opp();
         unitVector perp=forward.perp();
@@ -85,17 +180,15 @@ public class Car{
         StdDraw.filledPolygon(a, b);
         
     }
-    public void inputNodeValue(){
-        this.loc.inputNodeValue(0,awayFrom); 
-    }
+    
     public double Size(){
         return this.size;
     }
     public boolean Orientation(){
         return this.orientation;
     }
-    public double Percentage(){
-        return this.percentage;
+    public double distFromParent(){
+        return this.distFromParent;
     }
     public class unitVector{
         private double x;

@@ -1,3 +1,4 @@
+import java.util.*;
 public class Main{
     public static void main(String args[]) throws AdoptionException{
         StdDraw.setCanvasSize(800,800);
@@ -43,20 +44,33 @@ public class Main{
         Road l20=new Road(ti2,ki2);
         Road l21=new Road(ti3,ki3);
         Car c;
+        StdDraw.enableDoubleBuffering();
+        ArrayList<Node>possibleDestinations=((Place)bi1).getAllNodes();
         try{
-        c=new Car(10, br1, (float)0.5,true);
-          c.inputNodeValue();  
+        c=new Car(0.4, br1, 60.0,true);
+          c.setDestination(possibleDestinations.get((int)(Math.random()*possibleDestinations.size()))); 
+            while(true){
+            StdDraw.clear();
+            if(!c.move()){
+                for (Node n: possibleDestinations){
+                    n.refresh();
+                }
+                c.setDestination(possibleDestinations.get((int)(Math.random()*possibleDestinations.size())));  
+            }
+            bi1.displayAll();
+            StdDraw.show();
+        }
         }
         catch(NoMoreSpaceException n){
             
         }
-        try{
+        /*try{
         new Car(10, br1, (float)0.5,true);
         }
         catch(NoMoreSpaceException n){
             System.out.println("failed to add");
-        }
+        }*/
         
-        bi1.displayAll();
+        
     }
 }
