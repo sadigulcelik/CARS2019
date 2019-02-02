@@ -48,14 +48,14 @@ public class Main{
         ArrayList<Node>possibleDestinations=((Place)bi1).getAllNodes();
         try{
         c=new Car(0.4, br1, 60.0,true);
-          c.setDestination(possibleDestinations.get((int)(Math.random()*possibleDestinations.size()))); 
+          while(!c.setDestination(possibleDestinations.get((int)(Math.random()*possibleDestinations.size())))){}  
             while(true){
             StdDraw.clear();
             if(!c.move()){
                 for (Node n: possibleDestinations){
                     n.refresh();
                 }
-                c.setDestination(possibleDestinations.get((int)(Math.random()*possibleDestinations.size())));  
+                while(!c.setDestination(possibleDestinations.get((int)(Math.random()*possibleDestinations.size())))){}  
             }
             bi1.displayAll();
             StdDraw.show();

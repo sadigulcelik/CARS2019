@@ -99,7 +99,8 @@ public class Car{
         
     }
     
-    public void setDestination(Node n){
+    //returns false if it fails
+    public boolean setDestination(Node n){
         this.inputNodeValue();
         route=n.getPath();
         System.out.println("start");
@@ -109,7 +110,11 @@ public class Car{
             
         }
         System.out.println("end");
+        if(route.size()!=0){
         currentDest=route.get(0);
+            return true;
+        }
+        return false;
     }
     
     public void inputNodeValue(){
