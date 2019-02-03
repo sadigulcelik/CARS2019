@@ -62,7 +62,7 @@ public class Intersection extends Place{
         StdDraw.filledCircle(x, y,10);
         StdDraw.setPenColor(0,255,255);
         for(Car c: this.cars){
-            c.display(x,y,x+1,y+1);
+            c.display(x,y);
         }
     }
 }

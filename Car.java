@@ -9,7 +9,7 @@ public class Car{
     double size=8;
     ArrayList<Node>route;
     Node currentDest;
-    booleean isTurning;
+    boolean isTurning;
     public Car(double speed, Road r, double distFromParent,boolean orientation) throws NoMoreSpaceException{
         if (distFromParent<0){
             throw new NoMoreSpaceException();
@@ -41,8 +41,8 @@ public class Car{
                 this.loc.removeCar(this);
                 //System.out.println("here: "+currentDest.getOther(this.loc));
                 this.loc=(Place)(currentDest.getOther(this.loc));
-                System.out.println(this.loc);
-                System.out.println(this.loc.length());
+                //System.out.println(this.loc);
+                //System.out.println(this.loc.length());
                 this.loc.addCar(this);
                 awayFrom=currentDest;
                 //System.out.println(route.indexOf(currentDest));
@@ -106,13 +106,13 @@ public class Car{
     public boolean setDestination(Node n){
         this.inputNodeValue();
         route=n.getPath();
-        System.out.println("start");
+        //System.out.println("start");
         for(int i=0; i<route.size();i++){
             
-            System.out.print(route.get(i).nodeValue()+"   ");
+            //System.out.print(route.get(i).nodeValue()+"   ");
             
         }
-        System.out.println("end");
+        //System.out.println("end");
         if(route.size()!=0){
         currentDest=route.get(0);
             return true;
@@ -150,6 +150,54 @@ public class Car{
         
     }
     public void display(double x,double y){
+        Road previousRoad=((Road)this.awayFrom.getOther(this.loc));
+        double[] arr1=previousRoad.coors();
+        unitVector previous;
+        if (previousRoad.isParentalSide(awayFrom)){
+            previous=new unitVector(arr1[0]-arr1[2],arr1[1]-arr1[3]);
+        }
+        else{
+            previous=new unitVector(arr1[2]-arr1[0],arr1[3]-arr1[1]);
+        }
+        
+        Road nextRoad=((Road)this.currentDest.getOther(this.loc));
+        double[] arr2=nextRoad.coors();
+        unitVector next;
+        if (!nextRoad.isParentalSide(currentDest)){
+            next=new unitVector(arr2[0]-arr2[2],arr2[1]-arr2[3]);
+            
+        }
+        else{
+            next=new unitVector(arr2[2]-arr2[0],arr2[3]-arr2[1]);
+            
+        }
+        unitVector forward=new unitVector(this.distFromParent*next.x()+(this.loc.length()-this.distFromParent)*previous.x(),this.distFromParent*next.y()+(this.loc.length()-this.distFromParent)*previous.y());
+        unitVector backward=forward.opp();
+        unitVector perp=forward.perp();
+        double width =5;
+        double arrowWidth=12;
+        double backl=2.6;
+        double forwardl=1.5;
+        double arrowTip=5;
+         double[] a = {x+backl*size*backward.x()+width*perp.x(),
+                      x+backl*size*backward.x()-width*perp.x(),
+                      x+forwardl*size*forward.x()-width*perp.x(),
+                      x+forwardl*size*forward.x()-arrowWidth*perp.x(),
+                      x+arrowTip*size*forward.x(),
+                      x+forwardl*size*forward.x()+arrowWidth*perp.x(),
+                      x+forwardl*size*forward.x()+width*perp.x()
+                     };
+        
+        double[] b = {y+backl*size*backward.y()+width*perp.y(),
+                      y+backl*size*backward.y()-width*perp.y(),
+                      y+forwardl*size*forward.y()-width*perp.y(),
+                      y+forwardl*size*forward.y()-arrowWidth*perp.y(),
+                      y+arrowTip*size*forward.y(),
+                      y+forwardl*size*forward.y()+arrowWidth*perp.y(),
+                      y+forwardl*size*forward.y()+width*perp.y()
+                     };
+        StdDraw.filledPolygon(a, b);
+        
         
     }
     public void display(double xi, double yi, double xf,double yf){

@@ -53,7 +53,7 @@ public abstract class Place{
      * @param  length the distance taken to traverse the Times Square
      */
     protected Place(double length){
-        System.out.println(this.length);
+        //System.out.println(this.length);
         this.length=length;       
     }
     
