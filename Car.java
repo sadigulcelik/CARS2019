@@ -125,7 +125,7 @@ public class Car{
         double length;
         if (orientation){length=distFromParent;}
         else{length=loc.length()-distFromParent;}
-        this.loc.inputNodeValue(-length,awayFrom,myPath); 
+        this.loc.inputNodeValue(-length,awayFrom,myPath,this.maxSpeed); 
     }
     public boolean hasCollission(Car c, double roadLength){
         if (this.distFromParent>c.distFromParent()){

@@ -181,15 +181,15 @@ public abstract class Place{
      */
     abstract double y();
     
-    public void inputNodeValue(double nodeValue,ArrayList<Node>path){
+    public void inputNodeValue(double nodeValue,ArrayList<Node>path, double speed){
         for (Node n: this.links){
-            n.pushNodeValue((nodeValue+this.length),this,path);
+            n.pushNodeValue((nodeValue+this.length/speed),this,path,speed);
         }
     }
-    public void inputNodeValue(double nodeValue, Node sourceNode, ArrayList<Node>path){
+    public void inputNodeValue(double nodeValue, Node sourceNode, ArrayList<Node>path,double speed){
         for (Node n: this.links){
             if (n!=sourceNode){
-                n.pushNodeValue((nodeValue+this.length),this,path);
+                n.pushNodeValue((nodeValue+this.length/speed),this,path,speed);
             }
         }
     }

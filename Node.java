@@ -59,7 +59,7 @@ public class Node{
             
         }
     }
-    public void pushNodeValue(double incomingValue,Place source,ArrayList<Node>inpath){
+    public void pushNodeValue(double incomingValue,Place source,ArrayList<Node>inpath,double speed){
         if (incomingValue<nodeValue){
             this.nodeValue=incomingValue;
             
@@ -71,10 +71,10 @@ public class Node{
             myPath.add(this);
             this.path=myPath;
         if (origin==source){
-            target.inputNodeValue(incomingValue,this,myPath);
+            target.inputNodeValue(incomingValue,this,myPath,speed);
         }
         else{
-            origin.inputNodeValue(incomingValue,this,myPath);
+            origin.inputNodeValue(incomingValue,this,myPath,speed);
         }
         }
     }
