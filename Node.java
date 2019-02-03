@@ -59,20 +59,22 @@ public class Node{
             
         }
     }
-    public void pushNodeValue(double incomingValue,Place source,ArrayList<Node>path){
+    public void pushNodeValue(double incomingValue,Place source,ArrayList<Node>inpath){
         if (incomingValue<nodeValue){
             this.nodeValue=incomingValue;
-            this.path=path;
-            ArrayList<Node>out=new ArrayList<Node>();
-            for(Node n: path){
-                out.add(n);
+            
+            
+            ArrayList<Node>myPath=new ArrayList<Node>();
+            for(Node n: inpath){
+                myPath.add(n);
             }
-            out.add(this);
+            myPath.add(this);
+            this.path=myPath;
         if (origin==source){
-            target.inputNodeValue(incomingValue,this,out);
+            target.inputNodeValue(incomingValue,this,myPath);
         }
         else{
-            origin.inputNodeValue(incomingValue,this,out);
+            origin.inputNodeValue(incomingValue,this,myPath);
         }
         }
     }

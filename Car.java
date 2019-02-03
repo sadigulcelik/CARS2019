@@ -9,7 +9,7 @@ public class Car{
     double size=8;
     ArrayList<Node>route;
     Node currentDest;
-    
+    booleean isTurning;
     public Car(double speed, Road r, double distFromParent,boolean orientation) throws NoMoreSpaceException{
         if (distFromParent<0){
             throw new NoMoreSpaceException();
@@ -50,16 +50,19 @@ public class Car{
                 //System.out.println("node val: "+ currentDest.nodeValue());
                 if(loc instanceof Intersection){
                     orientation=true;
-                    p=p-loc.length();
+                    //p=p-loc.length();
+                    p=0;
                 }
         else if(loc instanceof Road){
                 if(((Road)this.loc).isParentalSide(awayFrom)){
                     orientation=true;
-                    p=p-loc.length();
+                    //p=p-loc.length();
+                    p=0;
                 }
                 else{
                     orientation=false;
-                    p=this.loc.length()-(p-this.loc.length());
+                    //p=this.loc.length()-(p-this.loc.length());
+                    p=loc.length();
                 }
             }
             }
@@ -144,6 +147,9 @@ public class Car{
             
         
         return false;
+        
+    }
+    public void display(double x,double y){
         
     }
     public void display(double xi, double yi, double xf,double yf){
