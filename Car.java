@@ -115,6 +115,9 @@ public class Car{
         //System.out.println("end");
         if(route.size()!=0){
         currentDest=route.get(0);
+            for(int i=0; i<route.size();i++){
+                
+            }
             return true;
         }
         return false;
